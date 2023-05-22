@@ -4,37 +4,19 @@ import java.util.Scanner;
 
 public class Main {
 
-    public static String areRoman(String operator1, String operator2) {
-        int areRoman = 0;
-        Map<Integer, Character> mapOfRomanDigits = new HashMap<>();
-        mapOfRomanDigits.put(0, 'I');
-        mapOfRomanDigits.put(1, 'V');
-        mapOfRomanDigits.put(2, 'X');
-        mapOfRomanDigits.put(3, 'L');
-        mapOfRomanDigits.put(4, 'C');
-        mapOfRomanDigits.put(5, 'D');
-        mapOfRomanDigits.put(6, 'M');
-        String[] operators = {operator1, operator2};
-        for (String operator : operators) {
-            for (Integer key : mapOfRomanDigits.keySet()) {
-                if (operator.charAt(0) == mapOfRomanDigits.get(key)) {
-                    areRoman += 1;
-                    break;
-                }
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        while (true) {
+            System.out.println("Введите выражение или напишите 'Выйти': ");
+            String input = scanner.nextLine();
+            if (input.equalsIgnoreCase("Выйти") || input.equalsIgnoreCase("Dsqnb")) {
+                System.out.println("Пока!");
+                System.exit(0);
+                ;
             }
-        }
-        if (areRoman == 0) {
-            return "areInteger";
-        } else if (areRoman == 2) {
-            return "areRoman";
-        } else {
-            return "Exception";
-        }
-    }
-
-    static class CalcException extends Exception {
-        public CalcException(String message) {
-            super(message);
+            System.out.println("Ответ:");
+            System.out.println(calc(input));
+            System.out.println();
         }
     }
 
@@ -118,22 +100,6 @@ public class Main {
             System.exit(1);
         }
         return answer;
-    }
-
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        while (true) {
-            System.out.println("Введите выражение или напишите 'Выйти': ");
-            String input = scanner.nextLine();
-            if (input.equalsIgnoreCase("Выйти") || input.equalsIgnoreCase("Dsqnb")) {
-                System.out.println("Пока!");
-                System.exit(0);
-                ;
-            }
-            System.out.println("Ответ:");
-            System.out.println(calc(input));
-            System.out.println();
-        }
     }
 
     static class RomanNumber {
@@ -248,6 +214,40 @@ public class Main {
                 }
             }
             return numberInRomanSystem;
+        }
+    }
+
+    public static String areRoman(String operator1, String operator2) {
+        int areRoman = 0;
+        Map<Integer, Character> mapOfRomanDigits = new HashMap<>();
+        mapOfRomanDigits.put(0, 'I');
+        mapOfRomanDigits.put(1, 'V');
+        mapOfRomanDigits.put(2, 'X');
+        mapOfRomanDigits.put(3, 'L');
+        mapOfRomanDigits.put(4, 'C');
+        mapOfRomanDigits.put(5, 'D');
+        mapOfRomanDigits.put(6, 'M');
+        String[] operators = {operator1, operator2};
+        for (String operator : operators) {
+            for (Integer key : mapOfRomanDigits.keySet()) {
+                if (operator.charAt(0) == mapOfRomanDigits.get(key)) {
+                    areRoman += 1;
+                    break;
+                }
+            }
+        }
+        if (areRoman == 0) {
+            return "areInteger";
+        } else if (areRoman == 2) {
+            return "areRoman";
+        } else {
+            return "Exception";
+        }
+    }
+
+    static class CalcException extends Exception {
+        public CalcException(String message) {
+            super(message);
         }
     }
 
