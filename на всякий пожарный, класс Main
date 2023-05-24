@@ -12,13 +12,13 @@ public class Main {
             if (input.equalsIgnoreCase("Выйти") || input.equalsIgnoreCase("Dsqnb")) {
                 System.out.println("Пока!");
                 System.exit(0);
-                ;
             }
             System.out.println("Ответ:");
             System.out.println(calc(input));
             System.out.println();
         }
     }
+
 
     public static String calc(String input) {
         String[] partsOfExpression = input.split(" ");
@@ -40,15 +40,28 @@ public class Main {
                 case "areInteger":
                     operator1 = Integer.parseInt(partsOfExpression[0]);
                     operator2 = Integer.parseInt(partsOfExpression[2]);
+                    try {
+                        if (!((operator1 >= 1 && operator1 <= 10) && (operator2 >= 1 && operator2 <= 10))) {
+                            throw new CalcException("throws Exception //т.к. неподходящее целое число");
+                        }
+                    } catch (Exception e) {
+                        System.out.println(e.getMessage());
+                        System.exit(1);
+                    }
+
                     break;
                 case "areRoman":
-                    RomanNumber operator1Tmp = new RomanNumber();
-                    operator1Tmp.setValue(partsOfExpression[0]);
-                    operator1 = operator1Tmp.toArabSystem();
-                    RomanNumber operator2Tmp = new RomanNumber();
-                    operator2Tmp.setValue(partsOfExpression[2]);
-                    operator2 = operator2Tmp.toArabSystem();
+                    operator1 = hardCheat(partsOfExpression[0]);
+                    operator2 = hardCheat(partsOfExpression[2]);
                     areRoman = true;
+                    try {
+                        if (!((operator1 >= 1 && operator1 <= 10) && (operator2 >= 1 && operator2 <= 10))) {
+                            throw new CalcException("throws Exception //т.к. неподходящее римское число");
+                        }
+                    } catch (Exception e) {
+                        System.out.println(e.getMessage());
+                        System.exit(1);
+                    }
                     break;
                 default:
                     throw new CalcException("throws Exception //т.к. используются одновременно разные системы счисления");
@@ -142,6 +155,7 @@ public class Main {
             }
             return numberInArabSystem;
         }
+
     }
 
     abstract class IntegerUtils {
@@ -180,6 +194,7 @@ public class Main {
             return digitInRomanSystem.getValue();
         }
 
+
         public static RomanNumber toRomanSystem(Integer numberInArabSystem) {
             RomanNumber numberInRomanSystem = new RomanNumber();
             String digitInRomanSystem;
@@ -217,6 +232,37 @@ public class Main {
         }
     }
 
+    //Да, в исправленной программе теперь хардкод, но есть информация, что так быстрее, чем выдумывать закономерности
+    public static int hardCheat(String numberInRomanSystem) {
+        Map<String, Integer> digitToArabSystem = new HashMap<>();
+        digitToArabSystem.put("I", 1);
+        digitToArabSystem.put("II", 2);
+        digitToArabSystem.put("III", 3);
+        digitToArabSystem.put("IV", 4);
+        digitToArabSystem.put("V", 5);
+        digitToArabSystem.put("VI", 6);
+        digitToArabSystem.put("VII", 7);
+        digitToArabSystem.put("VIII", 8);
+        digitToArabSystem.put("IX", 9);
+        digitToArabSystem.put("X", 10);
+        digitToArabSystem.put("0", 0);
+        digitToArabSystem.put(" ", 0);
+        for (String key : digitToArabSystem.keySet()) {
+            if (key.equals(numberInRomanSystem)) {
+                return digitToArabSystem.get(key);
+            }
+        }
+        try {
+            if (true) {
+                throw new CalcException("throws Exception //т.к. неподходящее римское число");
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            System.exit(1);
+        }
+        return 0;
+    }
+
     public static String areRoman(String operator1, String operator2) {
         int areRoman = 0;
         Map<Integer, Character> mapOfRomanDigits = new HashMap<>();
@@ -250,5 +296,4 @@ public class Main {
             super(message);
         }
     }
-
 }
